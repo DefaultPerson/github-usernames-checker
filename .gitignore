@@ -1,0 +1,36 @@
+# Secrets
+.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Claude
+.claude/
+
+# Docs (personal setup)
+docs/
+
+# Build
+build/
+
+# Archives
+*.zip
+*.tar.gz
+
+# Python
+__pycache__/
+*.pyc
+
+# Data (sensitive)
+data/github-accounts.json
+data/users_cache/
+data/users_data/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# MCP config (contains API keys)
+.mcp.json
