@@ -1,0 +1,1 @@
+https://github.com/Ehco1996/speedtest-clash/blob/master/Makefile
