@@ -51,6 +51,9 @@ func main() {
 	utils.LoadConfig()
 	ctx := context.Background()
 	proxies := utils.ReadProxies()
+	if utils.EnableProxyCheck {
+		proxies = utils.CheckProxies(proxies, 10*time.Second)
+	}
 	pool := utils.NewTransportPool(proxies)
 	utils.GetAccountsTokens()
 	utils.Users, _ = utils.GetUsersFromFile()

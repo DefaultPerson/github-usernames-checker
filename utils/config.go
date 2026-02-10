@@ -26,6 +26,7 @@ var (
 	MainAccountAuthToken            string
 	EnableUsernameChange            bool
 	EnableTelegramMessageIfFound404 bool
+	EnableProxyCheck                bool
 	MinUsersRemainToNewIter         int
 )
 
@@ -54,6 +55,7 @@ func LoadConfig() {
 	telegramBotToken = getEnvAsString("TG_BOT_TOKEN", true)
 	EnableTelegramMessageIfFound404 = getEnvAsBool("ENABLE_TELEGRAM_MESSAGE_IF_404", true)
 	EnableUsernameChange = getEnvAsBool("ENABLE_USERNAME_CHANGE", true)
+	EnableProxyCheck = getEnvAsBoolDefault("ENABLE_PROXY_CHECK", false)
 }
 
 func getEnvAsString(key string, required bool) string {
@@ -69,6 +71,18 @@ func getEnvAsInt(key string, required bool) int {
 	value, err := strconv.Atoi(valueStr)
 	if err != nil {
 		log.Fatal().Msgf("Error converting %s to int: %v", key, err)
+	}
+	return value
+}
+
+func getEnvAsBoolDefault(key string, defaultVal bool) bool {
+	valueStr := os.Getenv(key)
+	if valueStr == "" {
+		return defaultVal
+	}
+	value, err := strconv.ParseBool(strings.Trim(valueStr, `"`))
+	if err != nil {
+		return defaultVal
 	}
 	return value
 }

@@ -18,17 +18,23 @@ type TransportPool struct {
 	mu         sync.RWMutex
 }
 
+// NormalizeProxy converts proxy formats to URL-compatible form.
+// Supports: host:port, host:port:user:pass, user:pass@host:port, socks5://...
+func NormalizeProxy(proxyAddr string) string {
+	proxyAddr = strings.TrimSpace(proxyAddr)
+	if parts := strings.SplitN(proxyAddr, ":", 4); len(parts) == 4 && !strings.Contains(proxyAddr, "@") {
+		proxyAddr = parts[2] + ":" + parts[3] + "@" + parts[0] + ":" + parts[1]
+	}
+	return proxyAddr
+}
+
 func NewTransportPool(proxies []string) *TransportPool {
 	pool := &TransportPool{
 		transports: make([]*http.Transport, 0, len(proxies)),
 	}
 
 	for _, proxyAddr := range proxies {
-		proxyAddr = strings.TrimSpace(proxyAddr)
-		// Support host:port:user:pass format → user:pass@host:port
-		if parts := strings.SplitN(proxyAddr, ":", 4); len(parts) == 4 && !strings.Contains(proxyAddr, "@") {
-			proxyAddr = parts[2] + ":" + parts[3] + "@" + parts[0] + ":" + parts[1]
-		}
+		proxyAddr = NormalizeProxy(proxyAddr)
 		var transport *http.Transport
 		if strings.HasPrefix(proxyAddr, "socks5://") {
 			socks5Proxy, err := url.Parse(proxyAddr)

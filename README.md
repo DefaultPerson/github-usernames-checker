@@ -23,7 +23,7 @@ Monitor GitHub username availability with optional auto-claim and Telegram notif
    echo "desired-username" >> data/users_set/usernames.txt
    ```
 
-4. Add proxies to `data/proxy.txt` (optional, format: `host:port` or `user:pass@host:port`)
+4. Add proxies to `data/proxy.txt` (optional, format: `host:port`, `host:port:user:pass` or `user:pass@host:port`)
 
 ## Usage
 
@@ -47,6 +47,7 @@ make build-all
 | `RETRY_COUNT` | Request retry attempts |
 | `ENABLE_USERNAME_CHANGE` | Auto-claim found usernames |
 | `ENABLE_TELEGRAM_MESSAGE_IF_404` | Notify when 404 found |
+| `ENABLE_PROXY_CHECK` | Filter dead proxies on startup |
 
 ## License
 
