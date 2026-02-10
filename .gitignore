@@ -27,6 +27,7 @@ __pycache__/
 data/github-accounts.json
 data/users_cache/
 data/users_data/
+proxy.txt
 
 # OS
 .DS_Store
